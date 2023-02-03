@@ -1,0 +1,18 @@
+{
+    "name": "95545",
+    "private": true,
+    "description": " Kanban style boat management",
+    "license": "Apache-2.0",
+    "author": "Rafael Solorzano",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3",
+        "typescript": "^4.9.3"
+    }
+}
