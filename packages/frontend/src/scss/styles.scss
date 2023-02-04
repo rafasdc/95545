@@ -1,0 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
+.table-striped-columns thead tr :nth-child(even) {
+    --bs-table-accent-bg: none;
+}
