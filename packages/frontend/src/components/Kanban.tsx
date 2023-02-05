@@ -41,9 +41,9 @@ const Kanban = () => (
                                 </Col>
                             </Row>
                         </td>
-                        <td id="outbound"></td>
-                        <td id="inbound"></td>
-                        <td id="maintenance"></td>
+                        <td id="outbound" />
+                        <td id="inbound" />
+                        <td id="maintenance" />
                     </tr>
                 </tbody>
             </Table>

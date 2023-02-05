@@ -6,7 +6,7 @@ const Home = () => (
         <Container fluid className="p-5 mb-4 bg-light rounded-3">
             <h1 className="header">EcoCatch Tours</h1>
             <p>Welcome to EcoCatch Tours, current boat conditions:</p>
-            <Overview />
+            <Overview horizontal={false} />
         </Container>
     </Container>
 )
