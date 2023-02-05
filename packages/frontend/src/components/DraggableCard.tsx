@@ -5,9 +5,9 @@ import Card from "react-bootstrap/Card"
 import Col from "react-bootstrap/Col"
 import { DraggableCardProps } from "../interfaces/DraggableCardProps"
 
-const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, text, key }) => (
+const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, text }) => (
     <Col>
-        <Draggable draggableId={id} index={index} key={key}>
+        <Draggable draggableId={id} index={index}>
             {(provided, snapshot) => (
                 <Card
                     ref={provided.innerRef}

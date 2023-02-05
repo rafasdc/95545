@@ -5,7 +5,7 @@ export interface BoatState {
     maintenance: Boat[]
 }
 
-interface Boat {
+export interface Boat {
     name: string
     id: string
     status: string
