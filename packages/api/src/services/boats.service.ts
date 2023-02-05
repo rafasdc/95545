@@ -27,9 +27,10 @@ export const getBoat = async (id: string) => {
     }
 }
 
-export const createBoat = async (operator: string) => {
+export const createBoat = async (name: string, operator: string) => {
     try {
         const newBoat: Boat = {
+            name,
             operator,
             status: "docked"
         }
@@ -43,9 +44,10 @@ export const createBoat = async (operator: string) => {
     }
 }
 
-export const updateBoat = async (id: string, operator: string, status: Boat["status"]) => {
+export const updateBoat = async (name: string, id: string, operator: string, status: Boat["status"]) => {
     try {
         const update: Boat = {
+            name,
             operator,
             status
         }

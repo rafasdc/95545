@@ -23,8 +23,8 @@ describe("controller tests", () => {
     describe("getAllBoats", () => {
         test("getAllBoats should return 200 and all boats", async () => {
             const boats: Boat[] = [
-                { _id: new ObjectId(), operator: "john", status: "docked" },
-                { _id: new ObjectId(), operator: "bob", status: "docked" }
+                { _id: new ObjectId(), name: "boat 1", operator: "john", status: "docked" },
+                { _id: new ObjectId(), name: "boat 2", operator: "bob", status: "docked" }
             ]
             ;(boatService.getAllBoats as jest.Mock).mockResolvedValue(boats)
 
@@ -48,7 +48,7 @@ describe("controller tests", () => {
     describe("getBoat", () => {
         test("getBoat should return 200 and the boat with id 63dde001dd33daca86d58fdb", async () => {
             req.params.id = "63dde001dd33daca86d58fdb"
-            const boat: Boat = { _id: new ObjectId(req.params.id), operator: "john", status: "docked" }
+            const boat: Boat = { _id: new ObjectId(req.params.id), name: "boat 1", operator: "john", status: "docked" }
             ;(boatService.getBoat as jest.Mock).mockResolvedValue(boat)
 
             await getBoat(req, res)
@@ -87,7 +87,7 @@ describe("controller tests", () => {
         })
 
         test("createBoat should return 201 and the inserted id on success", async () => {
-            req.body.operator = "john"
+            req.body = { name: "boat 1", operator: "john" }
             ;(boatService.createBoat as jest.Mock).mockResolvedValue({ insertedId: "1" })
 
             await createBoat(req, res)
@@ -97,7 +97,7 @@ describe("controller tests", () => {
         })
 
         test("createBoat should return 500 on server error", async () => {
-            req.body.operator = "john"
+            req.body = { name: "boat 1", operator: "john" }
             ;(boatService.createBoat as jest.Mock).mockRejectedValue(new Error("Server error"))
 
             await createBoat(req, res)
@@ -109,12 +109,12 @@ describe("controller tests", () => {
     // end createBoat Tests
     // updateBoat Tests
     describe("updateBoat", () => {
-        test("returns 400 if operator or status is missing", async () => {
+        test("returns 400 if name, operator or status is missing", async () => {
             await updateBoat(req, res)
             expect(res.status).toHaveBeenCalledWith(400)
             expect(res.send).toHaveBeenCalledWith("Bad request")
 
-            req.body = { operator: "john" }
+            req.body = { name: "boat 1", operator: "john" }
             await updateBoat(req, res)
             expect(res.status).toHaveBeenCalledWith(400)
             expect(res.send).toHaveBeenCalledWith("Bad request")
@@ -123,7 +123,7 @@ describe("controller tests", () => {
         test("returns 200 if boat is updated successfully", async () => {
             req.params.id = "63dde001dd33daca86d58fdb"
             ;(boatService.updateBoat as jest.Mock).mockResolvedValue({ modifiedCount: 1 })
-            req.body = { operator: "john", status: "docked" }
+            req.body = { name: "boat 1", operator: "john", status: "docked" }
 
             await updateBoat(req, res)
             expect(res.status).toHaveBeenCalledWith(200)
@@ -132,7 +132,7 @@ describe("controller tests", () => {
         test("returns 304 if boat is not modified", async () => {
             req.params.id = "63def4c855633981de90826e"
             ;(boatService.updateBoat as jest.Mock).mockResolvedValue({ modifiedCount: 0 })
-            req.body = { operator: "john", status: "docked" }
+            req.body = { name: "boat 1", operator: "john", status: "docked" }
 
             await updateBoat(req, res)
             expect(res.status).toHaveBeenCalledWith(304)
@@ -141,7 +141,7 @@ describe("controller tests", () => {
 
         test("returns 500 on error", async () => {
             ;(boatService.updateBoat as jest.Mock).mockRejectedValue(new Error("Database error"))
-            req.body = { operator: "john", status: "docked" }
+            req.body = { name: "boat 1", operator: "john", status: "docked" }
 
             await updateBoat(req, res)
             expect(res.status).toHaveBeenCalledWith(500)

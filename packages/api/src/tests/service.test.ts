@@ -18,11 +18,14 @@ jest.mock("../db/db", () => ({
     collections: {
         boats: {
             find: jest.fn().mockReturnValue({
-                toArray: jest
-                    .fn()
-                    .mockResolvedValue([
-                        { _id: new ObjectId("63dde001dd33daca86d58fdb"), operator: "john", status: "docked" }
-                    ])
+                toArray: jest.fn().mockResolvedValue([
+                    {
+                        _id: new ObjectId("63dde001dd33daca86d58fdb"),
+                        name: "boat 1",
+                        operator: "john",
+                        status: "docked"
+                    }
+                ])
             }),
             findOne: jest.fn().mockResolvedValue({
                 _id: new ObjectId("63dde001dd33daca86d58fdb"),
@@ -45,7 +48,7 @@ describe("services tests", () => {
         test("should return all boats", async () => {
             const result = await getAllBoats()
             expect(result).toEqual([
-                { _id: new ObjectId("63dde001dd33daca86d58fdb"), operator: "john", status: "docked" }
+                { _id: new ObjectId("63dde001dd33daca86d58fdb"), name: "boat 1", operator: "john", status: "docked" }
             ])
         })
 
@@ -83,14 +86,14 @@ describe("services tests", () => {
 
     describe("createBoat", () => {
         test("should create a boat", async () => {
-            const result = await createBoat("john")
+            const result = await createBoat("boat1", "john")
             expect(result).toEqual({ acknowledged: true, insertedId: new ObjectId("63dde001dd33daca86d58fdb") })
         })
 
         test("should throw an error if something not Mongo related throws an error", async () => {
             ;(collections.boats?.insertOne as jest.Mock).mockRejectedValue(new Error("Something not Mongo happened"))
             try {
-                await createBoat("test")
+                await createBoat("boat1", "john")
             } catch (error) {
                 expect(error).toEqual(new Error("Unexpected error occurred"))
             }
@@ -99,13 +102,13 @@ describe("services tests", () => {
 
     describe("updateBoat", () => {
         test("should update a boat", async () => {
-            const result = await updateBoat("63dde001dd33daca86d58fdb", "john", "docked")
+            const result = await updateBoat("boat 1", "63dde001dd33daca86d58fdb", "john", "docked")
             expect(result).toEqual({ acknowledged: true, matchedCount: 1, upsertCount: 0, upsertId: null })
         })
         test("should throw an error if something not Mongo related throws an error", async () => {
             ;(collections.boats?.updateOne as jest.Mock).mockRejectedValue(new Error("Something not Mongo happened"))
             try {
-                await updateBoat("1", "john", "docked")
+                await updateBoat("boat 1", "1", "john", "docked")
             } catch (error) {
                 expect(error).toEqual(new Error("Unexpected error occurred"))
             }

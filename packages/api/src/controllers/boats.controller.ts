@@ -52,18 +52,18 @@ export const getBoat = async (req: express.Request, res: express.Response) => {
  * @param {express.Request} req - The request object containing the operator for the new boat.
  * @param {express.Response} res - The response object to send the result of the creation operation.
  *
- * @throws {400} - If the operator is missing in the request body, a "Bad request" message will be sent in the response.
+ * @throws {400} - If the operator or boat name is missing in the request body, a "Bad request" message will be sent in the response.
  * @throws {500} - If there is an error during the creation operation, the error will be logged and a "Internal Server Error" message will be sent in the response.
  *
  * @returns {void} - No return value, the result of the creation operation is sent in the response.
  */
 export const createBoat = async (req: express.Request, res: express.Response) => {
     try {
-        const { operator } = req.body
-        if (!operator) {
+        const { name, operator } = req.body
+        if (!operator || !name) {
             return res.status(400).send("Bad request")
         }
-        const createResult = await boatService.createBoat(operator)
+        const createResult = await boatService.createBoat(name, operator)
         return res.status(201).send(createResult?.insertedId)
     } catch (error: unknown) {
         console.log(error)
@@ -77,7 +77,7 @@ export const createBoat = async (req: express.Request, res: express.Response) =>
  * @param {express.Request} req - The incoming request object
  * @param {express.Response} res - The response object to send the result
  *
- * @throws {400} If either operator or status is not provided in the request body
+ * @throws {400} If either name, operator, or status is not provided in the request body
  * @throws {500} If an error occurs during the update operation
  *
  * @returns {void} Sends the result of the update operation in the response object.
@@ -85,11 +85,11 @@ export const createBoat = async (req: express.Request, res: express.Response) =>
 export const updateBoat = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params
-        const { operator, status } = req.body
-        if (!operator || !status) {
+        const { name, operator, status } = req.body
+        if (!name || !operator || !status) {
             return res.status(400).send("Bad request")
         }
-        const updateResult = await boatService.updateBoat(id, operator, status)
+        const updateResult = await boatService.updateBoat(name, id, operator, status)
         if (updateResult) {
             if (updateResult.modifiedCount !== 0) {
                 return res.status(200).send(id)
