@@ -1,6 +1,6 @@
 import * as express from "express"
 import { ObjectId } from "mongodb"
-import { createBoat, getAllBoats, getBoat, updateBoat } from "../controllers/boats.controller"
+import { createBoat, deleteBoat, getAllBoats, getBoat, updateBoat } from "../controllers/boats.controller"
 import { Boat } from "../interfaces/Boat.interface"
 import * as boatService from "../services/boats.service"
 
@@ -11,7 +11,7 @@ const res: any = {
     send: jest.fn()
 }
 
-describe("getAllBoats", () => {
+describe("controller tests", () => {
     let req: express.Request
 
     beforeEach(() => {
@@ -41,8 +41,9 @@ describe("getAllBoats", () => {
         expect(res.status).toHaveBeenCalledWith(500)
         expect(res.send).toHaveBeenCalledWith("Internal Server Error")
     })
+    // end getAllBoat Tests
     // getBoat Tests
-    test("getBoat should return 200 and the boat with id 1", async () => {
+    test("getBoat should return 200 and the boat with id 63dde001dd33daca86d58fdb", async () => {
         req.params.id = "63dde001dd33daca86d58fdb"
         const boat: Boat = { _id: new ObjectId(req.params.id), operator: "john", status: "docked" }
         ;(boatService.getBoat as jest.Mock).mockResolvedValue(boat)
@@ -62,6 +63,16 @@ describe("getAllBoats", () => {
         expect(res.status).toHaveBeenCalledWith(404)
         expect(res.send).toHaveBeenCalledWith("Boat not found")
     })
+    test("getBoat should return 500 on server error", async () => {
+        req.params.id = "1"
+        ;(boatService.getBoat as jest.Mock).mockRejectedValue(new Error("Server error"))
+
+        await getBoat(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(500)
+        expect(res.send).toHaveBeenCalledWith("Internal Server Error")
+    })
+    // end getBoat Tests
     // createBoat Tests
     test("createBoat should return 400 if operator is missing", async () => {
         await createBoat(req, res)
@@ -89,6 +100,7 @@ describe("getAllBoats", () => {
         expect(res.status).toHaveBeenCalledWith(500)
         expect(res.send).toHaveBeenCalledWith("Internal Server Error")
     })
+    // end createBoat Tests
     // updateBoat Tests
     test("returns 400 if operator or status is missing", async () => {
         await updateBoat(req, res)
@@ -128,4 +140,45 @@ describe("getAllBoats", () => {
         expect(res.status).toHaveBeenCalledWith(500)
         expect(res.send).toHaveBeenCalledWith("Internal Server Error")
     })
+    // end updateBoat tests
+    // deleteBoat tests
+    test("should return status 202 with id when deleteResult.deletedCount is truthy", async () => {
+        req.params.id = "63dde001dd33daca86d58fdb"
+        ;(boatService.deleteBoat as jest.Mock).mockResolvedValue({ deletedCount: 1 })
+
+        await deleteBoat(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(202)
+        expect(res.send).toHaveBeenCalledWith("63dde001dd33daca86d58fdb")
+    })
+
+    test("should return status 404 when deleteResult.deletedCount is falsy", async () => {
+        req.params.id = "63def4c855633981de90826e"
+        ;(boatService.deleteBoat as jest.Mock).mockResolvedValue({ deletedCount: 0 })
+
+        await deleteBoat(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(404)
+        expect(res.send).toHaveBeenCalledWith("ID does not exist")
+    })
+
+    test("should return status 400 when deleteResult is falsy", async () => {
+        req.params.id = "1"
+        ;(boatService.deleteBoat as jest.Mock).mockResolvedValue(null)
+
+        await deleteBoat(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(400)
+        expect(res.send).toHaveBeenCalledWith("Bad Request")
+    })
+
+    test("should return status 500 when there is an error", async () => {
+        ;(boatService.deleteBoat as jest.Mock).mockRejectedValue(new Error())
+
+        await deleteBoat(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(500)
+        expect(res.send).toHaveBeenCalledWith("Internal Server Error")
+    })
+    // end deleteBoat Tests
 })
