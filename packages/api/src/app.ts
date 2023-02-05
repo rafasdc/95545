@@ -15,10 +15,13 @@ connectToDb()
 app.use(morgan("[:date] :method :url :status :res[content-length] - :remote-addr - :response-time ms"))
 app.set("trust proxy", "loopback, linklocal, uniquelocal")
 
-app.use(express.json({ limit: "6mb" }))
+// set json limits
+app.use(express.json({ limit: "1mb" }))
+// set url encoding options
 app.use(express.urlencoded({ extended: false }))
-
 app.use(bodyParser.urlencoded({ extended: false }))
+
+// set security constraints
 app.use(
     helmet.contentSecurityPolicy({
         useDefaults: true,
@@ -30,10 +33,13 @@ app.use(
     })
 )
 
+// set port according to environment variable or default to 8000
 const port = process.env.PORT || "8000"
 
-app.use("/boats", boatRouter)
+// set routes
+app.use("/boats/v1", boatRouter)
 
+// start server and log port
 app.listen(port, () => {
     console.log(`server started at :${port}`)
 })
