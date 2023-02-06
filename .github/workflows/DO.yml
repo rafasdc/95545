@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Checkout the repo 
         uses: actions/checkout@v2
-      - name: Update SHA
-        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
       - name: Build and tag API
         working-directory: ./packages/api
         run: docker build -t registry.digitalocean.com/rafasdc/95545-api:$(echo $GITHUB_SHA | head -c7) .
