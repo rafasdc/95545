@@ -7,7 +7,7 @@ const Overview = ({ horizontal = false }: { horizontal: boolean | string }) => (
             <div className="ms-2 me-auto">
                 <div className="fw-bold">Docked</div>
             </div>
-            <Badge bg="primary" pill>
+            <Badge bg="secondary" pill>
                 14
             </Badge>
         </ListGroup.Item>
@@ -23,7 +23,7 @@ const Overview = ({ horizontal = false }: { horizontal: boolean | string }) => (
             <div className="ms-2 me-auto">
                 <div className="fw-bold">Inbound to Harbor</div>
             </div>
-            <Badge bg="success" pill>
+            <Badge bg="primary" pill>
                 14
             </Badge>
         </ListGroup.Item>
@@ -31,7 +31,7 @@ const Overview = ({ horizontal = false }: { horizontal: boolean | string }) => (
             <div className="ms-2 me-auto">
                 <div className="fw-bold">Maintenance</div>
             </div>
-            <Badge bg="secondary" pill>
+            <Badge bg="warning" pill>
                 14
             </Badge>
         </ListGroup.Item>

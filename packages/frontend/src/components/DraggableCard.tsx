@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Draggable } from "react-beautiful-dnd"
-import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
 import Col from "react-bootstrap/Col"
 import { DraggableCardProps } from "../interfaces/DraggableCardProps"
@@ -18,9 +17,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, text }) => (
                         ...provided.draggableProps.style
                     }}
                 >
+                    <Card.Header>{text}</Card.Header>
                     <Card.Body>
-                        <Card.Title>{text}</Card.Title>
-                        <Button>Click Me</Button>
+                        <Card.Text>Operator: </Card.Text>
                     </Card.Body>
                 </Card>
             )}

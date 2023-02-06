@@ -7,7 +7,7 @@ export interface BoatState {
 
 export interface Boat {
     name: string
-    id: string
+    _id: string
     status: string
     operator: string
 }
