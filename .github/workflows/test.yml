@@ -1,5 +1,7 @@
 name: Test
 on: push
+env: 
+  DB_CONNECTION_STRING: "mongodb://localhost:27017"
 jobs:
   build:
     runs-on: ubuntu-latest
