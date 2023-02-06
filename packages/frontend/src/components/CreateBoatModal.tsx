@@ -5,19 +5,10 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
-import { BoatState } from "../interfaces/BoatState"
+import CreateBoat from "../api/CreateBoat"
+import { CreateBoatModalProps } from "../interfaces/CreateBoatModalProps"
 
-const CreateBoatModal = ({
-    showModal,
-    setShowModal,
-    boats,
-    setBoats
-}: {
-    showModal: boolean
-    setShowModal: (value: boolean) => void
-    boats: BoatState
-    setBoats: (value: BoatState) => void
-}) => {
+const CreateBoatModal: React.FC<CreateBoatModalProps> = ({ showModal, setShowModal, boats, setBoats }) => {
     const [formsState, setFormState] = useState({
         name: "",
         operator: ""
@@ -34,28 +25,7 @@ const CreateBoatModal = ({
         event.preventDefault()
         // Perform API call to createBoat
         console.log("Form data:", formsState)
-        const updatedState = await fetch(`${import.meta.env.VITE_API_BASE_URL}/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formsState)
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                const newBoatsState = boats
-                console.log(newBoatsState)
-                const newDocked = boats.docked
-                newDocked.push({
-                    name: formsState.name,
-                    _id: data,
-                    status: "docked",
-                    operator: formsState.operator
-                })
-                newBoatsState.docked = newDocked
-                return newBoatsState
-            })
+        const updatedState = await CreateBoat(formsState, boats)
         setBoats(updatedState)
         setFormState({ name: "", operator: "" })
         setShowModal(false)
@@ -64,7 +34,7 @@ const CreateBoatModal = ({
     return (
         <Modal show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Form in Modal</Modal.Title>
+                <Modal.Title>Create Boat</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>

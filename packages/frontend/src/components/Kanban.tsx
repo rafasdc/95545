@@ -6,16 +6,11 @@ import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Table from "react-bootstrap/Table"
+import GetAllBoats from "../api/GetAllBoats"
+import UpdateBoat from "../api/UpdateBoat"
 import { Boat, BoatState } from "../interfaces/BoatState"
 import CreateBoatModal from "./CreateBoatModal"
 import DraggableCard from "./DraggableCard"
-
-const group = (arr: any[]) => ({
-    docked: arr.filter((boat: Boat) => boat.status === "docked"),
-    outbound: arr.filter((boat: Boat) => boat.status === "outbound"),
-    inbound: arr.filter((boat: Boat) => boat.status === "inbound"),
-    maintenance: arr.filter((boat: Boat) => boat.status === "maintenance")
-})
 
 const move = (source: Boat[], destination: Boat[], droppableSource: any, droppableDestination: any) => {
     console.log(source)
@@ -40,6 +35,7 @@ const move = (source: Boat[], destination: Boat[], droppableSource: any, droppab
 
 const Kanban = () => {
     const [showAddBoatModal, setAddBoatModal] = useState(false)
+    const [boatDeleted, setBoatDeleted] = useState(false)
     const [boats, setBoats] = useState<BoatState>({
         docked: [],
         outbound: [],
@@ -48,14 +44,12 @@ const Kanban = () => {
     })
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_BASE_URL}/`)
-            .then((response) => response.json())
-            .then((data) => {
-                const currBoats = group(data)
-                console.log(currBoats)
-                setBoats(currBoats)
-            })
+        GetAllBoats(setBoats)
     }, [])
+
+    useEffect(() => {
+        GetAllBoats(setBoats)
+    }, [boatDeleted])
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result
@@ -86,13 +80,7 @@ const Kanban = () => {
             console.log(newBoatsState)
             setBoats(newBoatsState)
             // update DB
-            fetch(`${import.meta.env.VITE_API_BASE_URL}/${result.draggableId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newBoatsState[destination.droppableId as keyof BoatState][destination.index])
-            })
+            UpdateBoat(result.draggableId, newBoatsState, destination.droppableId, destination.index)
         }
     }
 
@@ -117,8 +105,8 @@ const Kanban = () => {
                             <thead>
                                 <tr>
                                     <th>Docked</th>
-                                    <th>Outbound to Sea</th>
-                                    <th>Inbound to Harbor</th>
+                                    <th>Outbound</th>
+                                    <th>Inbound</th>
                                     <th>Maintenance</th>
                                 </tr>
                             </thead>
@@ -136,6 +124,8 @@ const Kanban = () => {
                                                             operator={boat.operator}
                                                             status={boat.status}
                                                             key={boat._id}
+                                                            boatDeleted={boatDeleted}
+                                                            setBoatDeleted={setBoatDeleted}
                                                         />
                                                     ))}
                                                     {provided.placeholder}
@@ -152,8 +142,11 @@ const Kanban = () => {
                                                             id={boat._id}
                                                             index={index}
                                                             boatName={boat.name}
+                                                            operator={boat.operator}
                                                             status={boat.status}
                                                             key={boat._id}
+                                                            boatDeleted={boatDeleted}
+                                                            setBoatDeleted={setBoatDeleted}
                                                         />
                                                     ))}
                                                     {provided.placeholder}
@@ -173,6 +166,8 @@ const Kanban = () => {
                                                             operator={boat.operator}
                                                             status={boat.status}
                                                             key={boat._id}
+                                                            boatDeleted={boatDeleted}
+                                                            setBoatDeleted={setBoatDeleted}
                                                         />
                                                     ))}
                                                     {provided.placeholder}
@@ -192,6 +187,8 @@ const Kanban = () => {
                                                             operator={boat.operator}
                                                             status={boat.status}
                                                             key={boat._id}
+                                                            boatDeleted={boatDeleted}
+                                                            setBoatDeleted={setBoatDeleted}
                                                         />
                                                     ))}
                                                     {provided.placeholder}

@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Draggable } from "react-beautiful-dnd"
+import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
 import Col from "react-bootstrap/Col"
+import DeleteBoat from "../api/DeleteBoat"
 import { DraggableCardProps } from "../interfaces/DraggableCardProps"
 
-const handleVariant = (status) => {
+const handleVariant = (status: string) => {
     if (status === "docked") {
         return "secondary"
     }
@@ -17,7 +19,15 @@ const handleVariant = (status) => {
     return "warning"
 }
 
-const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, boatName, operator, status }) => (
+const DraggableCard: React.FC<DraggableCardProps> = ({
+    id,
+    index,
+    boatName,
+    operator,
+    status,
+    boatDeleted,
+    setBoatDeleted
+}) => (
     <Col>
         <Draggable draggableId={id} index={index}>
             {(provided, snapshot) => (
@@ -35,6 +45,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, boatName, oper
                     <Card.Header>{boatName}</Card.Header>
                     <Card.Body>
                         <Card.Text>Operator: {operator}</Card.Text>
+                        <Button onClick={() => DeleteBoat(id, boatDeleted, setBoatDeleted)} variant="light" size="sm">
+                            Delete
+                        </Button>
                     </Card.Body>
                 </Card>
             )}
