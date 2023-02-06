@@ -1,0 +1,35 @@
+name: Build and push to DO
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo 
+        uses: actions/checkout@v2
+      - name: Build API
+        working-directory: ./api
+        run: docker build -t 95545/api .
+      - name: Build API
+        working-directory: ./frontend
+        run: docker build -t 95545/frontend .
+      - name: Install doctl 
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Log in to DO Container Registry 
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag API image 
+        run:
+          docker tag 95545/api \
+          registry.digitalocean.com/rafasdc/95545-api:${{github.event.inputs.version }}
+      - name: Push API image to DO Container Registry 
+        run: docker push registry.digitalocean.com/rafasdc/95545-api:$(git rev-parse --short "$GITHUB_SHA")
+      - name: Tag frontend image 
+        run:
+          docker tag 95545/frontend \
+          registry.digitalocean.com/rafasdc/95545-api:${{github.event.inputs.version }}
+      - name: Push frontend image to DO Container Registry 
+        run: docker push registry.digitalocean.com/rafasdc/95545-frontend:$(git rev-parse --short "$GITHUB_SHA")
