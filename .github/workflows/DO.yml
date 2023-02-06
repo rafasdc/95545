@@ -22,6 +22,6 @@ jobs:
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: Push API image to DO Container Registry 
-        run: docker push registry.digitalocean.com/rafasdc/95545-api:$(echo $GITHUB_SHA | head -c7) .
+        run: docker push registry.digitalocean.com/rafasdc/95545-api:$(echo $GITHUB_SHA | head -c7)
       - name: Push frontend image to DO Container Registry 
-        run: docker push registry.digitalocean.com/rafasdc/95545-frontend:$(echo $GITHUB_SHA | head -c7) .
+        run: docker push registry.digitalocean.com/rafasdc/95545-frontend:$(echo $GITHUB_SHA | head -c7)
