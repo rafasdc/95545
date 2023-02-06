@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import bodyParser from "body-parser"
+import cors from "cors"
 import express from "express"
 import helmet from "helmet"
 import { connectToDb } from "./db/db"
@@ -30,6 +31,12 @@ app.use(
             "style-src": ["'none'"],
             "font-src": ["'none'"]
         }
+    })
+)
+
+app.use(
+    cors({
+        origin: "*"
     })
 )
 
