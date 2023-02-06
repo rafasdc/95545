@@ -4,7 +4,20 @@ import Card from "react-bootstrap/Card"
 import Col from "react-bootstrap/Col"
 import { DraggableCardProps } from "../interfaces/DraggableCardProps"
 
-const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, text }) => (
+const handleVariant = (status) => {
+    if (status === "docked") {
+        return "secondary"
+    }
+    if (status === "outbound") {
+        return "primary"
+    }
+    if (status === "inbound") {
+        return "info"
+    }
+    return "warning"
+}
+
+const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, boatName, operator, status }) => (
     <Col>
         <Draggable draggableId={id} index={index}>
             {(provided, snapshot) => (
@@ -16,10 +29,12 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ id, index, text }) => (
                         opacity: snapshot.isDragging ? 0.5 : 1,
                         ...provided.draggableProps.style
                     }}
+                    bg={handleVariant(status)}
+                    text={status === "maintenance" ? "dark" : "white"}
                 >
-                    <Card.Header>{text}</Card.Header>
+                    <Card.Header>{boatName}</Card.Header>
                     <Card.Body>
-                        <Card.Text>Operator: </Card.Text>
+                        <Card.Text>Operator: {operator}</Card.Text>
                     </Card.Body>
                 </Card>
             )}

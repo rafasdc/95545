@@ -1,5 +1,7 @@
 export interface DraggableCardProps {
     id: string
     index: number
-    text: string
+    boatName: string
+    operator: string
+    status: string
 }

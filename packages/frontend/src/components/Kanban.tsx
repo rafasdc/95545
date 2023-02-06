@@ -132,7 +132,9 @@ const Kanban = () => {
                                                         <DraggableCard
                                                             id={boat._id}
                                                             index={index}
-                                                            text={boat.name}
+                                                            boatName={boat.name}
+                                                            operator={boat.operator}
+                                                            status={boat.status}
                                                             key={boat._id}
                                                         />
                                                     ))}
@@ -149,7 +151,8 @@ const Kanban = () => {
                                                         <DraggableCard
                                                             id={boat._id}
                                                             index={index}
-                                                            text={boat.name}
+                                                            boatName={boat.name}
+                                                            status={boat.status}
                                                             key={boat._id}
                                                         />
                                                     ))}
@@ -166,7 +169,9 @@ const Kanban = () => {
                                                         <DraggableCard
                                                             id={boat._id}
                                                             index={index}
-                                                            text={boat.name}
+                                                            boatName={boat.name}
+                                                            operator={boat.operator}
+                                                            status={boat.status}
                                                             key={boat._id}
                                                         />
                                                     ))}
@@ -183,7 +188,9 @@ const Kanban = () => {
                                                         <DraggableCard
                                                             id={boat._id}
                                                             index={index}
-                                                            text={boat.name}
+                                                            boatName={boat.name}
+                                                            operator={boat.operator}
+                                                            status={boat.status}
                                                             key={boat._id}
                                                         />
                                                     ))}
