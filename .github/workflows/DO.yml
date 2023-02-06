@@ -24,12 +24,12 @@ jobs:
       - name: Tag API image 
         run:
           docker tag 95545/api \
-          registry.digitalocean.com/rafasdc/95545-api:${{github.event.inputs.version }}
+          registry.digitalocean.com/rafasdc/95545-api:${{ GITHUB_SHA }}
       - name: Push API image to DO Container Registry 
-        run: docker push registry.digitalocean.com/rafasdc/95545-api:$(git rev-parse --short "$GITHUB_SHA")
+        run: docker push registry.digitalocean.com/rafasdc/95545-api:${{ GITHUB_SHA }}
       - name: Tag frontend image 
         run:
           docker tag 95545/frontend \
-          registry.digitalocean.com/rafasdc/95545-api:${{github.event.inputs.version }}
+          registry.digitalocean.com/rafasdc/95545-api:${{ GITHUB_SHA }}
       - name: Push frontend image to DO Container Registry 
-        run: docker push registry.digitalocean.com/rafasdc/95545-frontend:$(git rev-parse --short "$GITHUB_SHA")
+        run: docker push registry.digitalocean.com/rafasdc/95545-frontend:${{ GITHUB_SHA }}
