@@ -12,6 +12,8 @@ jobs:
             - name: Install modules
               run: npm i
             - name: Run tests
+              env:
+                  DB_CONNECTION_STRING: "mongodb://test:27017"
               working-directory: ./packages/api
               run: npm test
     # Build frontend and API in prod mode
