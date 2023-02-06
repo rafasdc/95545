@@ -58,11 +58,11 @@ jobs:
                   images: '[{
                       "name": "frontend",
                       "repository": "registry.digitalocean.com/rafasdc/95545-frontend",
-                      "tag": $(echo $GITHUB_SHA | head -c7)
+                      "tag": "$(echo $GITHUB_SHA | head -c7)""
                       },
                       {
                       "name": "api",
                       "repository": "registry.digitalocean.com/rafasdc/95545-api",
-                      "tag": $(echo $GITHUB_SHA | head -c7)
+                      "tag": "$(echo $GITHUB_SHA | head -c7)""
                       }
                       ]'
