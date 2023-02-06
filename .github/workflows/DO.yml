@@ -10,15 +10,15 @@ jobs:
       - name: Checkout the repo 
         uses: actions/checkout@v2
       - name: Build API
-        working-directory: ./api
+        working-directory: ./packages/api
         run: docker build -t 95545/api .
       - name: Build API
-        working-directory: ./frontend
+        working-directory: ./packages/frontend
         run: docker build -t 95545/frontend .
       - name: Install doctl 
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: Tag API image 
