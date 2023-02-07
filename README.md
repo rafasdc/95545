@@ -150,3 +150,14 @@ Pre-requisite: Create a boat and move it to the outbound lane.
 15. Assert one item in the outbound lane.
 16. Assert one item in the maintenance lange.
 17. End Test
+
+# CI/CD Pipeline
+
+A CI/CD Pipeline has been implemented using GitHub Actions and is part of this repository. The pipeline tests, builds, configures, and triggers a deployment into Digital Ocean.
+
+A visual respresentation of the pipeline:
+
+
+## Pipeline deployment assumptions
+
+The pipeline assumes a mongoDB database has already been deployed on a cloud provider and a connection string is available to be used by the API. A deployment and configuration of a database is considered out of scope.
