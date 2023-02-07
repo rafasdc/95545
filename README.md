@@ -163,3 +163,33 @@ A high level respresentation of the pipeline:
 ## Pipeline deployment assumptions
 
 The pipeline assumes a mongoDB database has already been deployed on a cloud provider and a connection string is available to be used by the API. A deployment and configuration of a database is considered out of scope.
+
+# Running locally
+
+To run this repository locally follow these steps:
+
+1. Deploy a mongoDB
+
+Deploy a mongoDB locally either using docker or a database install. Take note of your `port`, `username`, and `password`.
+
+2. Clone this repo
+3. From a terminal at the top level of the repo run `npm install` this should install all required dependencies. Tested on Node v16 and v18.
+4. Create a .env file under `packages/api/` as follows:
+
+Replace {VARIABLE} with your mongo specific values
+
+```
+DB_CONNECTION_STRING="mongodb://{YOUR_MONGO_USER}:{YOUR_MONGO_PASS}@{MONGO_HOST}:{YOUR_MONGO_PORT}"
+DB_NAME="boats"
+COLLECTION_NAME="boats"
+```
+5. Create a .env file under `packages/frontend/` as follows:
+
+Note: assumes API will run on port 8000
+
+```
+VITE_API_BASE_URL="http://{YOUR_HOST}:8000/boats/v1"
+```
+6. Start the api by running `nodemon` or `npm start` if running with the later you might need to build first by running `npm build`
+7. Start the frontend by running `npm dev`
+8. Done!
