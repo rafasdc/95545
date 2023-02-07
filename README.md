@@ -5,6 +5,17 @@
  
  - As a user, they can view a list of boat statuses so they know at a glance what status each boat is in
  - As a boat operator, be able to create boat card to describe the status and be able to move them between swim lanes
+
+# Assumptions
+
+The following assumptions were used while building the system:
+
+- The boats can be created and removed at any time. There is no limitaion on the number of boats that can be on the board at any moment. 
+- Even though the company my have a finite amount of boats, there is no logic to limit creation to this number.
+- There is no need to edit boat names or operators as they can just be deleted and re-created.
+- Operators can be assigned to any boat
+- Boats use names/nicknames to uniquely identify them on the board, neverthelss boats can have the same name. It is assumed the boat names meaning are known by the operators. 
+- At a glance provide the number of boats by status to quickly get an overview without having to use the board.
  
  # Backend
  
