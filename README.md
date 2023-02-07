@@ -155,7 +155,9 @@ Pre-requisite: Create a boat and move it to the outbound lane.
 
 A CI/CD Pipeline has been implemented using GitHub Actions and is part of this repository. The pipeline tests, builds, configures, and triggers a deployment into Digital Ocean.
 
-A visual respresentation of the pipeline:
+A high level respresentation of the pipeline:
+
+<img src="https://github.com/rafasdc/95545/blob/main/images/pipeline.png" width="300">
 
 
 ## Pipeline deployment assumptions
