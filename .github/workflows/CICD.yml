@@ -29,10 +29,15 @@ jobs:
             - name: Build and tag API
               working-directory: ./packages/api
               run: docker build -t registry.digitalocean.com/rafasdc/95545-api:$(echo $GITHUB_SHA | head -c7) .
+            - name: Create envfile for frontend
+              uses: SpicyPizza/create-envfile@v1.3
+              with:
+                envkey_VITE_API_BASE_URL: ${{ secrets.API_URL }}
+                directory: ./packages/frontend
+                file_name: .env
+                fail_on_empty: false
             - name: Build and tag frontend
               working-directory: ./packages/frontend
-              env:
-                  VITE_API_BASE_URL: ${{ secrets.API_URL }}
               run: docker build -t registry.digitalocean.com/rafasdc/95545-frontend:$(echo $GITHUB_SHA | head -c7) .
             - name: Install doctl
               uses: digitalocean/action-doctl@v2
