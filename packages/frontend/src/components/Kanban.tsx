@@ -98,7 +98,7 @@ const Kanban = () => {
                         <Col>
                             <Button onClick={() => setAddBoatModal(true)}>Add Boat</Button>
                         </Col>
-                        <Col>Something here</Col>
+                        <Col>Boat Statuses</Col>
                     </Row>
                     <Row>
                         <Table className="table-striped-columns" style={{ tableLayout: "fixed", width: "100%" }}>
