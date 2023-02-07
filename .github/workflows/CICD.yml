@@ -30,9 +30,9 @@ jobs:
               working-directory: ./packages/api
               run: docker build -t registry.digitalocean.com/rafasdc/95545-api:$(echo $GITHUB_SHA | head -c7) .
             - name: Build and tag frontend
+              working-directory: ./packages/frontend
               env:
                   VITE_API_BASE_URL: ${{ secrets.API_URL }}
-              working-directory: ./packages/frontend
               run: docker build --build-arg VITE_API_BASE_URL -t registry.digitalocean.com/rafasdc/95545-frontend:$(echo $GITHUB_SHA | head -c7) .
             - name: Install doctl
               uses: digitalocean/action-doctl@v2
