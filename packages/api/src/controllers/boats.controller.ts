@@ -80,7 +80,7 @@ export const createBoat = async (req: express.Request, res: express.Response) =>
  * @throws {400} If either name, operator, or status is not provided in the request body
  * @throws {500} If an error occurs during the update operation
  *
- * @returns {void} Sends the result of the update operation in the response object.
+ * @returns {void} Sends the result of the update operation (boat id) in the response object.
  */
 export const updateBoat = async (req: express.Request, res: express.Response) => {
     try {
